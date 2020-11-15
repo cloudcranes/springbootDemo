@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmln:th="http://www.thymeleaf.org" xmlns:xmln="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/serachSomes}" method="get">
+    <label>商品标题</label><input type="text" name="title"/> <label>价格</label><input
+        type="text" name="minPrice"/>-<input type="text" name="maxPrice"/>元<br/>
+    <label>商品类型</label>
+    <select name="type">
+        <option>--请选择类型</option>
+        <option value="1">手机</option>
+        <option value="0">家电</option>
+    </select>
+    <button type="submit">搜索商品</button>
+</form>
+<table border="1">
+    <th>
+        <tr>
+            <th>标题</th>
+            <th>价格</th>
+            <th>修改</th>
+            <th>类型</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </th>
+    <tbody>
+    <tr th:each="g:${goods}">
+        <td th:text="${g.goodsTitle}"></td>
+        <td th:text="${g.goodsPrice}"></td>
+        <td th:text="${g.goodsMod}"></td>
+        <td th:text="${g.goodsType== 1 ? '手机':'家电'}">
+        </td>
+        <td th:text="${g.goodsAble== true ? '上线' : '下架'}"></td>
+        <td>
+            <!-- 查看service.xml 这里进行传值，goodsAble和goodsId-->
+            <a th:href=" @{/modType(goodsId=${g.goodsId},goodsAble=${g.goodsAble})}">
+                <button th:text="${g.goodsAble== false ? '上线' : '下架'}"></button>
+            </a>
+            <a href="#">
+                <button>修改</button>
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,18 @@
+#数据库连接
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///shop?serverTimezone=UTC #有.cj使用的是8.0的mysql依赖包，所以需要时间区域
+    type: com.alibaba.druid.pool.DruidDataSource #使用Alibaba的Durid的连接池
+
+#设置端口号
+server:
+  port: 80
+
+#mybatis设置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml #设置mapper/*.xml的文件位置(mapper.xml)
+  configuration:
+    map-underscore-to-camel-case: true #设置驼峰映射

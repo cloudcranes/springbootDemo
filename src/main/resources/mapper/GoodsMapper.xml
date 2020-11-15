@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cqswxy.ljf.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="cn.cqswxy.ljf.entity.Goods">
+        <id column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle"/>
+        <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice"/>
+        <result column="goods_mod" jdbcType="DATE" property="goodsMod"/>
+        <result column="goods_type" jdbcType="INTEGER" property="goodsType"/>
+        <result column="goods_able" jdbcType="BIT" property="goodsAble"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    goods_id, goods_title, goods_price, goods_mod, goods_type, goods_able
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_goods
+        where goods_id = #{goodsId,jdbcType=INTEGER}
+    </select>
+
+    <!--    模糊查询-->
+    <select id="searchSomes" resultType="cn.cqswxy.ljf.entity.Goods"
+            parameterType="cn.cqswxy.ljf.entity.Goods">
+        SELECT * FROM t_goods
+        <where>
+            <if test="goodsTitle != null and goodsTitle != ''">
+                AND goods_title LIKE "%"#{goodsTitle}"%"
+            </if>
+            <if test="goodsPrice != null and goodsPrice != '' ">
+                and goods_price between #{goodsPrice} and #{goodsPrice}
+            </if>
+            <if test="goodsType != null and goodsType != ''">
+                AND goods_type = #{goodsType}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="goods_id" keyProperty="goodsId" parameterType="cn.cqswxy.ljf.entity.Goods"
+            useGeneratedKeys="true">
+    insert into t_goods (goods_title, goods_price, goods_mod, 
+      goods_type, goods_able)
+    values (#{goodsTitle,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsMod,jdbcType=DATE}, 
+      #{goodsType,jdbcType=INTEGER}, #{goodsAble,jdbcType=BIT})
+  </insert>
+    <insert id="insertSelective" keyColumn="goods_id" keyProperty="goodsId" parameterType="cn.cqswxy.ljf.entity.Goods"
+            useGeneratedKeys="true">
+        insert into t_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsTitle != null">
+                goods_title,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="goodsMod != null">
+                goods_mod,
+            </if>
+            <if test="goodsType != null">
+                goods_type,
+            </if>
+            <if test="goodsAble != null">
+                goods_able,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsTitle != null">
+                #{goodsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsMod != null">
+                #{goodsMod,jdbcType=DATE},
+            </if>
+            <if test="goodsType != null">
+                #{goodsType,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAble != null">
+                #{goodsAble,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.cqswxy.ljf.entity.Goods">
+        update t_goods
+        <set>
+            <if test="goodsTitle != null">
+                goods_title = #{goodsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsMod != null">
+                goods_mod = #{goodsMod,jdbcType=DATE},
+            </if>
+            <if test="goodsType != null">
+                goods_type = #{goodsType,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAble != null">
+                goods_able = #{goodsAble,jdbcType=BIT},
+            </if>
+        </set>
+        where goods_id = #{goodsId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.cqswxy.ljf.entity.Goods">
+    update t_goods
+    set goods_title = #{goodsTitle,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_mod = #{goodsMod,jdbcType=DATE},
+      goods_type = #{goodsType,jdbcType=INTEGER},
+      goods_able = #{goodsAble,jdbcType=BIT}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectAll" resultType="cn.cqswxy.ljf.entity.Goods">
+        select * from t_goods
+    </select>
+</mapper>

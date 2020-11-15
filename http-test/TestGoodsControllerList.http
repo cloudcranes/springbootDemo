@@ -1,0 +1,8 @@
+GET http://localhost:80/modAble?goodsId=${g.goodsId},goodsAble=${g.goodsAble}
+Accept: application/json
+
+###
+GET http://localhost:80/index
+Accept: application/json
+
+###

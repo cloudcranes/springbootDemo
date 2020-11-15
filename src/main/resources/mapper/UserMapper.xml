@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cqswxy.ljf.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.cqswxy.ljf.entity.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_access" jdbcType="VARCHAR" property="userAccess"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="user_last_time" jdbcType="TIMESTAMP" property="userLastTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    user_id, user_access, user_password, user_name, user_type, user_last_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="cn.cqswxy.ljf.entity.User"
+            useGeneratedKeys="true">
+    insert into t_user (user_access, user_password, user_name, 
+      user_type, user_last_time)
+    values (#{userAccess,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=INTEGER}, #{userLastTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="cn.cqswxy.ljf.entity.User"
+            useGeneratedKeys="true">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userAccess != null">
+                user_access,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userLastTime != null">
+                user_last_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userAccess != null">
+                #{userAccess,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userLastTime != null">
+                #{userLastTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.cqswxy.ljf.entity.User">
+        update t_user
+        <set>
+            <if test="userAccess != null">
+                user_access = #{userAccess,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userLastTime != null">
+                user_last_time = #{userLastTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.cqswxy.ljf.entity.User">
+    update t_user
+    set user_access = #{userAccess,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      user_last_time = #{userLastTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cqswxy.ljf.mapper.UserTypeMapper">
+    <resultMap id="BaseResultMap" type="cn.cqswxy.ljf.entity.UserType">
+        <id column="user_type_id" jdbcType="INTEGER" property="userTypeId"/>
+        <result column="user_type_name" jdbcType="VARCHAR" property="userTypeName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    user_type_id, user_type_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_type
+        where user_type_id = #{userTypeId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user_type
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="user_type_id" keyProperty="userTypeId" parameterType="cn.cqswxy.ljf.entity.UserType"
+            useGeneratedKeys="true">
+    insert into t_user_type (user_type_name)
+    values (#{userTypeName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="user_type_id" keyProperty="userTypeId"
+            parameterType="cn.cqswxy.ljf.entity.UserType" useGeneratedKeys="true">
+        insert into t_user_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userTypeName != null">
+                user_type_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userTypeName != null">
+                #{userTypeName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.cqswxy.ljf.entity.UserType">
+        update t_user_type
+        <set>
+            <if test="userTypeName != null">
+                user_type_name = #{userTypeName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_type_id = #{userTypeId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.cqswxy.ljf.entity.UserType">
+    update t_user_type
+    set user_type_name = #{userTypeName,jdbcType=VARCHAR}
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>
